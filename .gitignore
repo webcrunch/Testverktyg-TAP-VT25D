@@ -1,0 +1,17 @@
+# .gitignore
+
+# Virtuella miljöer (VITALT!)
+.venv/
+venv/
+env/
+
+# Python cache och bytecode
+__pycache__/
+*.pyc
+
+# Playwright loggar och cache (om de skapas)
+*.log
+test-results/
+
+# Editor- och IDE-filer (t.ex. VS Code)
+.vscode/
