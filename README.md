@@ -35,8 +35,8 @@ Projektet täcker all grundläggande funktionalitet samt flera avancerade testfa
 
 1.  **Klona repositoryt:**
     ```bash
-    git clone <LÄNK TILL DITT PUBLIKA GITHUB REPO HÄR>
-    cd reading-list-tests
+    git clone git@github.com:webcrunch/Testverktyg-TAP-VT25D.git
+    cd 
     ```
 
 2.  **Aktivera virtuell miljö (Bash/Git Bash):**
