@@ -87,20 +87,3 @@ class ReadingListPage:
             return self.add_book_link
         else:
             raise ValueError(f"Okänd navigeringslänk: {name}")
-
-    # --- Nätverksfel Simuleringsmetod ---
-
-    def simulate_add_book_failure(self):
-        """Simulerar ett 500-fel vid POST-anrop för att lägga till bok."""
-        self.page.route(
-            "**/books",
-            lambda route: route.fulfill(
-                status=500,
-                body="Simulated Server Error",
-                headers={"Content-Type": "text/plain"},
-            ),
-        )
-
-    def get_error_notification(self) -> Locator:
-        """Returnerar lokatorn för felnotisen."""
-        return self.error_notification

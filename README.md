@@ -19,9 +19,11 @@ Projektet täcker all grundläggande funktionalitet samt flera avancerade testfa
 * **Page Object Model (POM):** Används genomgående i strukturen (`pages/`) för återanvändbarhet och robusthet.
 * **Scenario Outline:** Används för att effektivt testa **upprepade klick på favoritknappen** (t.ex. klick 1, 2, 3, 4) för att säkerställa att tillståndet är konsekvent.
 * **Validering & Felhantering:**
-    * Testar att användaren **inte** kan lägga till en bok utan att fylla i alla obligatoriska fält.
-    * Testar att **formulärfälten rensas** automatiskt efter ett framgångsrikt tillägg (bra UX).
-    * Testar **nätverksfel** genom att simulera ett HTTP 500-fel (server error) vid försök att lägga till en bok, och verifierar att ett användarvänligt felmeddelande visas.
+    * Testar att användaren **inte** kan lägga till en bok utan att fylla i alla obligatoriska fält.
+    * Testar att **formulärfälten rensas** automatiskt efter ett framgångsrikt tillägg (bra UX).
+
+* **Tillgänglighet (Accessibility):** Testar att användaren kan navigera mellan huvudlänkarna och aktivera funktioner (som att favoritmarkera en bok) enbart med **tangentbordet** (Tab och Space), vilket säkerställer god användbarhet.
+
 * **Persistens:** Testar att alla flyktiga ändringar (nyligen tillagda böcker och favoritmarkeringar) **försvinner** efter att sidan laddas om, vilket bekräftar appens sessionsbaserade natur.
 
 ## Hur man startar projektet
