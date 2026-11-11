@@ -1,0 +1,43 @@
+name: Tester
+
+# Kör hela behave-sviten mot Läslistan: vid push och pull request mot main, en gång i veckan
+# (appen kan ändras även när det här repot står still) och för hand.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  behave:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installera beroenden
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      # Scenarier taggade @bugg hoppas över via behave.ini
+      - name: Kör testsviten
+        run: behave --junit --junit-directory test-results
+
+      - name: Spara testrapporten
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behave-junit
+          path: test-results/

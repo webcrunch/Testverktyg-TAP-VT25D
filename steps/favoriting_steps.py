@@ -1,4 +1,4 @@
-from behave import given, when, then
+from behave import given, when, then, step
 from playwright.sync_api import expect
 
 # --- GENERISKA STEG (GIVEN) ---
@@ -12,8 +12,9 @@ def step_impl(context, page_title):
 
 @given('att boken "{title}" är markerad som favorit')
 def step_impl(context, title):
-    context.reading_list_page.goto_home()
+    context.reading_list_page.goto_catalog()
     context.reading_list_page.click_favorite_button(title)
+    expect(context.reading_list_page.get_favorite_button(title)).to_have_class("star selected")
 
 
 # --- STEG FÖR HANDLING (WHEN) ---
@@ -26,37 +27,38 @@ def step_impl(context, title, click_count=1):
         context.reading_list_page.click_favorite_button(title)
 
 
-@when('jag navigerar till sidan "Mina böcker"')
-def step_impl(context):
-    context.reading_list_page.goto_my_books()
+# step: används både som När och som Och efter ett Så
+@step('jag navigerar till sidan "{name}"')
+def step_impl(context, name):
+    context.reading_list_page.goto(name)
 
 
 # --- VERIFIERINGSSTEG (THEN) ---
 
 
 @then('ska boken "{title}" visas i listan')
+@then('boken "{title}" visas i listan')
 def step_impl(context, title):
-    book_locator = context.reading_list_page.get_book_locator_by_title(title)
-    expect(book_locator).to_be_visible()
+    expect(context.reading_list_page.get_favorite_locator_by_title(title)).to_be_visible()
 
 
 @then('ska boken "{title}" inte visas i listan')
 def step_impl(context, title):
-    book_locator = context.reading_list_page.get_book_locator_by_title(title)
-    expect(book_locator).not_to_be_visible()
+    expect(context.reading_list_page.get_favorite_locator_by_title(title)).to_have_count(0)
 
 
 @then('ska boken "{title}" visas i listan om "{should_exist}" är "Ja"')
 def step_impl(context, title, should_exist):
-    book_locator = context.reading_list_page.get_book_locator_by_title(title)
+    favorite = context.reading_list_page.get_favorite_locator_by_title(title)
 
     if should_exist.lower() == "ja":
-        expect(book_locator).to_be_visible()
+        expect(favorite).to_be_visible()
     else:
-        expect(book_locator).not_to_be_visible()
+        expect(favorite).to_have_count(0)
 
 
-@then("och antalet favoriter ska vara {expected_count:d}")
+@then("antalet favoriter ska vara {expected_count:d}")
+@then("ska antalet favoriter vara {expected_count:d}")
 def step_impl(context, expected_count):
     current_count = context.reading_list_page.get_favorite_count()
     assert (
